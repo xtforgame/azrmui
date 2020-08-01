@@ -116,7 +116,6 @@ class ConfirmDialog extends _react.default.PureComponent {
 }
 
 _defineProperty(ConfirmDialog, "propTypes", {
-  open: _propTypes.default.bool.isRequired,
   onClose: _propTypes.default.func.isRequired
 });
 

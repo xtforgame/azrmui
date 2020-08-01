@@ -1,9 +1,9 @@
 /* eslint-disable react/no-multi-comp */
 
 import React from 'react';
-import useDialogWithButtonState, { Cancel } from '~/hooks/useDialogWithButtonState';
 import FdiDialog from './FdiDialog';
 import FdiButton from './FdiButton';
+import useFormDialogInput from './useFormDialogInput';
 
 /*
   props:
@@ -24,75 +24,49 @@ export default (props) => {
     label,
     title,
     value,
-    displayValue = v => v,
-    renderButton,
-    buttonProps: bp,
-    renderDialog,
-    dialogProps: dp,
-    onChange = () => {},
   } = props;
 
-  const [{
-    open,
-    exited,
-    dialogProps,
-    buttonProps,
+  const {
+    renderButton: rb = propsForButton => (
+      <Button
+        label={label}
+        value={propsForButton.valueForDisplay}
+        onClick={propsForButton.handleOpen}
+        onKeyDown={propsForButton.handleOpen}
+        {...propsForButton.buttonProps}
+      />
+    ),
+    renderDialog: rd = propsForDialog => (
+      <Dialog
+        title={title != null ? title : label}
+        value={value}
+        {...propsForDialog.dialogProps}
+      />
+    ),
+  } = props;
+
+  const {
+    // propsForButton,
+    // propsForDialog,
+    // dialogExited,
+
+    renderButton,
+    renderDialog,
+  } = useFormDialogInput({
+    ...props,
+    renderButton: rb,
+    renderDialog: rd,
   }, {
-    handleOpen,
-    handleClose,
-    handleExited,
-  }] = useDialogWithButtonState({
-    open: () => {
+    overwriteProps: {
+      label,
+      title,
     },
-    close: (v) => {
-      if (v !== undefined && v !== Cancel) {
-        onChange(v);
-      }
-    },
-    dialogProps: dp,
-    buttonProps: bp,
   });
-
-  const valueForDisplay = displayValue(value);
-  const propsForButton = {
-    label,
-    title,
-    handleOpen,
-    value,
-    valueForDisplay,
-    buttonProps,
-  };
-
-  const propsForDialog = {
-    label,
-    title,
-    open,
-    handleClose,
-    handleExited,
-    value,
-    dialogProps,
-  };
 
   return (
     <React.Fragment>
-      {renderButton ? renderButton(propsForButton) : (
-        <Button
-          label={label}
-          value={valueForDisplay}
-          onClick={handleOpen}
-          onKeyDown={handleOpen}
-          {...buttonProps}
-        />
-      )}
-      {(!exited) && (
-        renderDialog ? renderDialog(propsForDialog) : (
-          <Dialog
-            title={title != null ? title : label}
-            value={value}
-            {...dialogProps}
-          />
-        )
-      )}
+      {renderButton()}
+      {renderDialog()}
     </React.Fragment>
   );
 };

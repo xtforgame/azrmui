@@ -7,9 +7,9 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _DialogContent = _interopRequireDefault(require("@material-ui/core/DialogContent"));
+
+var _useStateWithError = _interopRequireDefault(require("../../hooks/useStateWithError"));
 
 var _FormInputs = require("../FormInputs");
 
@@ -23,68 +23,72 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+var _default = props => {
+  const {
+    asyncValidator,
+    validator,
+    onClose = () => null
+  } = props;
+  const [text, setText, textError, setTextError] = (0, _useStateWithError.default)(props.value || '');
 
-class InputDialog extends _react.default.PureComponent {
-  constructor(...args) {
-    super(...args);
+  const handleClose = _result => {
+    let result = _result;
 
-    _defineProperty(this, "handleEnterForTextField", event => {
-      if (event.key === 'Enter') {
-        this.handleClose(true);
-        event.preventDefault();
+    if (result === true) {
+      result = text;
+
+      if (validator) {
+        const errorText = validator(text);
+
+        if (errorText) {
+          setTextError(errorText);
+          return;
+        }
       }
-    });
 
-    _defineProperty(this, "handleClose", _result => {
-      let result = _result;
-
-      if (result === true) {
-        result = this.state.editingText;
+      if (asyncValidator) {
+        Promise.resolve(asyncValidator(text)).then(errorText => {
+          if (errorText) {
+            setTextError(errorText);
+          } else {
+            onClose(result);
+          }
+        }).catch(error => setTextError(error.message));
+        return;
       }
+    }
 
-      if (this.props.onClose) {
-        this.props.onClose(result);
-      }
-    });
+    onClose(result);
+  };
 
-    this.state = {
-      editingText: this.props.value || ''
-    };
-  }
+  const handleEnterForTextField = event => {
+    if (event.key === 'Enter') {
+      handleClose(true);
+      event.preventDefault();
+    }
+  };
 
-  render() {
-    const _this$props = this.props,
-          {
-      id,
-      label,
-      onClose
-    } = _this$props,
-          rest = _objectWithoutProperties(_this$props, ["id", "label", "onClose"]);
+  const {
+    id,
+    label
+  } = props,
+        rest = _objectWithoutProperties(props, ["id", "label"]);
 
-    return _react.default.createElement(_ConfirmDialog.default, _extends({}, rest, {
-      onClose: this.handleClose
-    }), _react.default.createElement(_DialogContent.default, null, _react.default.createElement(_FormInputs.FormSpace, {
-      variant: "content2"
-    }), _react.default.createElement(_FormInputs.FormTextField, {
-      id: id,
-      label: label,
-      onKeyPress: this.handleEnterForTextField,
-      value: this.state.editingText,
-      onChange: e => this.setState({
-        editingText: e.target.value
-      }),
-      autoFocus: true,
-      margin: "dense",
-      fullWidth: true
-    })));
-  }
-
-}
-
-exports.default = InputDialog;
-InputDialog.propTypes = {
-  id: _propTypes.default.string.isRequired,
-  open: _propTypes.default.bool.isRequired,
-  onClose: _propTypes.default.func.isRequired
+  return _react.default.createElement(_ConfirmDialog.default, _extends({}, rest, {
+    onClose: handleClose
+  }), _react.default.createElement(_DialogContent.default, null, _react.default.createElement(_FormInputs.FormSpace, {
+    variant: "content2"
+  }), _react.default.createElement(_FormInputs.FormTextField, {
+    error: !!textError,
+    helperText: textError,
+    label: label,
+    onKeyPress: handleEnterForTextField,
+    value: text,
+    onChange: e => setText(e.target.value),
+    autoFocus: true,
+    margin: "dense",
+    fullWidth: true
+  })));
 };
+
+exports.default = _default;

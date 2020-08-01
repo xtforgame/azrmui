@@ -48,7 +48,7 @@ var _default = ({
 
   const dialogProps = _objectSpread({}, dp, {
     open,
-    onClose: handleClose,
+    onClose: () => handleClose(),
     onExited: handleExited
   });
 

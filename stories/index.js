@@ -6,3 +6,6 @@ import './Dialog';
 
 // FormInputs
 import './FormInput';
+
+// FileManager
+import './FileManager';

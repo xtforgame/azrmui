@@ -35,7 +35,7 @@ export default ({
   const dialogProps = {
     ...dp,
     open,
-    onClose: handleClose,
+    onClose: () => handleClose(),
     onExited: handleExited,
   };
 

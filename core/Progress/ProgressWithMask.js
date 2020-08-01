@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _styles = require("@material-ui/core/styles");
 
@@ -14,6 +14,10 @@ var _CircularProgress = _interopRequireDefault(require("@material-ui/core/Circul
 var _common = _interopRequireDefault(require("../../styles/common"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
@@ -27,7 +31,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-const styles = theme => _objectSpread({}, (0, _common.default)(theme, 'flex'), {
+const useStyles = (0, _styles.makeStyles)(theme => _objectSpread({}, (0, _common.default)(theme, 'flex'), {
   maskedContainer: {
     position: 'absolute',
     top: 0,
@@ -48,97 +52,60 @@ const styles = theme => _objectSpread({}, (0, _common.default)(theme, 'flex'), {
     display: 'flex'
   },
   progress: {}
-});
+}));
 
-class ProgressWithMask extends _react.default.PureComponent {
-  constructor(...args) {
-    super(...args);
-    this.state = {
-      delayTimeout: null,
-      show: false
+const ProgressWithMask = props => {
+  const {
+    color,
+    style,
+    zIndex,
+    backgroundColor,
+    delay
+  } = props,
+        rest = _objectWithoutProperties(props, ["color", "style", "zIndex", "backgroundColor", "delay"]);
+
+  const classes = useStyles();
+  const [show, setShow] = (0, _react.useState)(false);
+  (0, _react.useEffect)(() => {
+    const delayTimeout = setTimeout(() => {
+      setShow(true);
+    }, delay);
+    return () => {
+      clearTimeout(delayTimeout);
     };
-  }
+  }, []);
+  const extraStyle = {};
 
-  componentDidMount() {
-    const {
-      delay
-    } = this.props;
+  if (show) {
+    if (zIndex != null) {
+      extraStyle.zIndex = zIndex;
+    }
 
-    if (delay) {
-      const delayTimeout = setTimeout(() => {
-        this.setState({
-          delayTimeout: null,
-          show: true
-        });
-      }, delay);
-      this.setState({
-        delayTimeout,
-        show: false
-      });
-    } else {
-      this.setState({
-        delayTimeout: null,
-        show: true
-      });
+    if (backgroundColor != null) {
+      extraStyle.backgroundColor = backgroundColor;
     }
   }
 
-  componentWillUnmount() {
-    if (this.state.delayTimeout) {
-      clearTimeout(this.state.delayTimeout);
-    }
-  }
+  return _react.default.createElement("div", _extends({
+    className: show ? classes.maskedContainer : classes.container,
+    style: _objectSpread({}, style, {}, extraStyle)
+  }, rest), _react.default.createElement("div", {
+    className: classes.flex1
+  }), _react.default.createElement("div", {
+    className: classes.flexContainer
+  }, _react.default.createElement("div", {
+    className: classes.flex1
+  }), show && _react.default.createElement(_CircularProgress.default, {
+    className: classes.progress,
+    size: 50,
+    color: color || 'primary',
+    thickness: 7
+  }), _react.default.createElement("div", {
+    className: classes.flex1
+  })), _react.default.createElement("div", {
+    className: classes.flex1
+  }));
+};
 
-  render() {
-    const _this$props = this.props,
-          {
-      classes,
-      color,
-      style,
-      zIndex,
-      backgroundColor,
-      delay
-    } = _this$props,
-          rest = _objectWithoutProperties(_this$props, ["classes", "color", "style", "zIndex", "backgroundColor", "delay"]);
-
-    const {
-      show
-    } = this.state;
-    const extraStyle = {};
-
-    if (show) {
-      if (zIndex != null) {
-        extraStyle.zIndex = zIndex;
-      }
-
-      if (backgroundColor != null) {
-        extraStyle.backgroundColor = backgroundColor;
-      }
-    }
-
-    return _react.default.createElement("div", _extends({
-      className: show ? classes.maskedContainer : classes.container,
-      style: _objectSpread({}, style, {}, extraStyle)
-    }, rest), _react.default.createElement("div", {
-      className: classes.flex1
-    }), _react.default.createElement("div", {
-      className: classes.flexContainer
-    }, _react.default.createElement("div", {
-      className: classes.flex1
-    }), show && _react.default.createElement(_CircularProgress.default, {
-      className: classes.progress,
-      size: 50,
-      color: color || 'primary',
-      thickness: 7
-    }), _react.default.createElement("div", {
-      className: classes.flex1
-    })), _react.default.createElement("div", {
-      className: classes.flex1
-    }));
-  }
-
-}
-
-var _default = (0, _styles.withStyles)(styles)(ProgressWithMask);
-
+var _default = ProgressWithMask;
 exports.default = _default;

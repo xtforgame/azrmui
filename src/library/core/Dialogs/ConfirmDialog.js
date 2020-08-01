@@ -29,7 +29,6 @@ const styles = theme => ({
 
 class ConfirmDialog extends React.PureComponent {
   static propTypes = {
-    open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
   };
 
