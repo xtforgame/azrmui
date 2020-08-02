@@ -19,7 +19,7 @@ import {
   grey,
   amber,
 } from '@material-ui/core/colors';
-import MoreActionMenuButton from 'library/core/Buttons/MoreActionMenuButton';
+import MoreActionMenuButton from '../Buttons/MoreActionMenuButton';
 
 const useStyles = makeStyles(() => ({
   unknownAvatar: {

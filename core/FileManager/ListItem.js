@@ -31,7 +31,7 @@ var _KeyboardArrowRight = _interopRequireDefault(require("@material-ui/icons/Key
 
 var _colors = require("@material-ui/core/colors");
 
-var _MoreActionMenuButton = _interopRequireDefault(require("library/core/Buttons/MoreActionMenuButton"));
+var _MoreActionMenuButton = _interopRequireDefault(require("../Buttons/MoreActionMenuButton"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
