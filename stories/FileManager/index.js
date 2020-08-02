@@ -66,7 +66,7 @@ storiesOf('FileManager', module)
           canCreate={canCreate}
           isFileExists={isFileExists}
           defaultPaths={['save-data-1']}
-          defaultFileName='save-data-1-10.js'
+          defaultFileName="save-data-1-10.js"
           onSelected={(v) => { console.log('v :', v); }}
         />
       </div>
