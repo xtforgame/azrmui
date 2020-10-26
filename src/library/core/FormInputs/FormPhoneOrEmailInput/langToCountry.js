@@ -9,8 +9,11 @@ const langToCountry = {
 export default langToCountry;
 
 export const getCountryCodeFromBrowser = () => {
-  const myLangSplit = navigator.language.split('-');
+  if (!navigator) {
+    return 'US';
+  }
   let country = null;
+  const myLangSplit = navigator.language.split('-');
   if (myLangSplit.length > 1) {
     const candidate = myLangSplit[myLangSplit.length - 1];
     if (candidate.toUpperCase() === candidate) {

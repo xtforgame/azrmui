@@ -731,8 +731,12 @@ var _default = langToCountry;
 exports.default = _default;
 
 const getCountryCodeFromBrowser = () => {
-  const myLangSplit = navigator.language.split('-');
+  if (!navigator) {
+    return 'US';
+  }
+
   let country = null;
+  const myLangSplit = navigator.language.split('-');
 
   if (myLangSplit.length > 1) {
     const candidate = myLangSplit[myLangSplit.length - 1];

@@ -117,6 +117,6 @@ export const getFileList = async (paths) => {
   const preFix = paths.length ? paths[paths.length - 1] : 'save-data';
   caches[path] = caches[path] || createFileList(preFix);
   // console.log('preFix :', preFix);
-  await promiseWait(500);
+  // await promiseWait(500);
   return caches[path];
 };

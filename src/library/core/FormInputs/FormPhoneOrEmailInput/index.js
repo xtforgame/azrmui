@@ -17,11 +17,11 @@ import FormTextField from '../FormTextField';
 import PhoneRegionSelect from './PhoneRegionSelect';
 import { getCountryCodeFromBrowser } from './langToCountry';
 
-const country = getCountryCodeFromBrowser();
 const phoneUtil = PhoneNumberUtil.getInstance();
 
 export const isValidPhoneNumber = (value) => {
   try {
+    const country = getCountryCodeFromBrowser();
     const number = phoneUtil.parseAndKeepRawInput(value, country);
     return phoneUtil.isValidNumber(number);
   } catch (error) {}
@@ -44,6 +44,7 @@ const rawInputToState = (rawInput, enablePhone = true, enableEmail = true) => {
 
   if (enablePhone) {
     try {
+      const country = getCountryCodeFromBrowser();
       number = phoneUtil.parseAndKeepRawInput(rawInput, country);
       // console.log('CountryCode:', number.getCountryCode());
       // console.log('NationalNumber:', number.getNationalNumber());
