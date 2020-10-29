@@ -9,3 +9,6 @@ import './FormInput';
 
 // FileManager
 import './FileManager';
+
+// EnhancedTable
+import './EnhancedTable';
