@@ -23,7 +23,6 @@ const FormFileInput = (props) => {
     readFile = defaultReadFile,
     readFileOption = {},
   } = props;
-  console.log('readFileOption :', readFileOption);
   const classes = useStyles();
   return (
     <React.Fragment>

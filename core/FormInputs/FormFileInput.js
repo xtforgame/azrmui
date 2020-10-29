@@ -37,7 +37,6 @@ const FormFileInput = props => {
     readFile = _imageHelpers.readFile,
     readFileOption = {}
   } = props;
-  console.log('readFileOption :', readFileOption);
   const classes = useStyles();
   return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("input", _extends({}, inputProps, {
     accept: accept,
