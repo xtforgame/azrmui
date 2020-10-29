@@ -12,3 +12,7 @@ import './FileManager';
 
 // EnhancedTable
 import './EnhancedTable';
+
+
+// FormFileInput
+import './FormFileInput';

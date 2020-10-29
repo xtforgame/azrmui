@@ -1,28 +1,30 @@
 /* eslint-disable react/prop-types, react/forbid-prop-types, jsx-a11y/label-has-associated-control */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { readFile } from '~/utils/imageHelpers';
+import { makeStyles } from '@material-ui/core/styles';
+import { readFile as defaultReadFile } from '~/utils/imageHelpers';
 import { promiseReduce } from '~/common/utils';
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   input: {
     display: 'none',
   },
-});
+}));
 
 const FormFileInput = (props) => {
   const {
     id,
-    classes,
     accept,
     onLoadEnd = () => {},
     onChange = () => {},
     children,
     inputProps,
     labelProps,
+    readFile = defaultReadFile,
     readFileOption = {},
   } = props;
+  console.log('readFileOption :', readFileOption);
+  const classes = useStyles();
   return (
     <React.Fragment>
       <input
@@ -54,4 +56,4 @@ FormFileInput.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-export default withStyles(styles)(FormFileInput);
+export default FormFileInput;

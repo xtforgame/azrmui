@@ -19,24 +19,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-const styles = theme => ({
+const useStyles = (0, _styles.makeStyles)(theme => ({
   input: {
     display: 'none'
   }
-});
+}));
 
 const FormFileInput = props => {
   const {
     id,
-    classes,
     accept,
     onLoadEnd = () => {},
     onChange = () => {},
     children,
     inputProps,
     labelProps,
+    readFile = _imageHelpers.readFile,
     readFileOption = {}
   } = props;
+  console.log('readFileOption :', readFileOption);
+  const classes = useStyles();
   return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("input", _extends({}, inputProps, {
     accept: accept,
     className: classes.input,
@@ -45,7 +47,7 @@ const FormFileInput = props => {
     onChange: e => {
       onChange(e);
       const files = Array.from(e.target.files);
-      (0, _utils.promiseReduce)(files, (_, file) => (0, _imageHelpers.readFile)(file, readFileOption).then(imgInfo => {
+      (0, _utils.promiseReduce)(files, (_, file) => readFile(file, readFileOption).then(imgInfo => {
         onLoadEnd(imgInfo);
       }));
     }
@@ -57,7 +59,5 @@ const FormFileInput = props => {
 FormFileInput.propTypes = {
   id: _propTypes.default.string.isRequired
 };
-
-var _default = (0, _styles.withStyles)(styles)(FormFileInput);
-
+var _default = FormFileInput;
 exports.default = _default;
