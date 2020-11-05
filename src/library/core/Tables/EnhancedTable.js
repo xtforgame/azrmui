@@ -11,9 +11,9 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import EnhancedTableHead from './EnhancedTableHead';
-import MoreActionMenuButton from '../Buttons/MoreActionMenuButton';
-import ProgressWithMask from '../Progress/ProgressWithMask';
+import EnhancedTableHead from 'azrmui/core/Tables/EnhancedTableHead';
+import MoreActionMenuButton from 'azrmui/core/Buttons/MoreActionMenuButton';
+import ProgressWithMask from 'azrmui/core/Progress/ProgressWithMask';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -97,9 +97,9 @@ export default (props) => {
       }
     }
 
-    let sortedRows = [...rows]; // eslint-disable-line no-unused-vars
+    let sortedRows = [...rowsProp]; // eslint-disable-line no-unused-vars
     const columnMap = {};
-    columns.forEach((column) => {
+    columnsProp.forEach((column) => {
       columnMap[column.id] = column;
     });
 
@@ -109,16 +109,16 @@ export default (props) => {
     }
     if (newOrder && newOrderBy) {
       sortedRows = newOrder === 'desc'
-        ? rows.sort((a, b) => (compare(b, a, newOrderBy) ? -1 : 1))
-        : rows.sort((a, b) => (compare(a, b, newOrderBy) ? -1 : 1));
+        ? rowsProp.sort((a, b) => (compare(b, a, newOrderBy) ? -1 : 1))
+        : rowsProp.sort((a, b) => (compare(a, b, newOrderBy) ? -1 : 1));
     }
 
     setOrder(newOrder);
     setOrderBy(newOrderBy);
     setRows(sortedRows);
 
-    setColumns(columns);
-    setColumnSizes(columnSizes);
+    setColumns(columnsProp);
+    setColumnSizes(columnSizesProp);
   };
 
   useEffect(() => {
