@@ -11,9 +11,9 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import EnhancedTableHead from 'azrmui/core/Tables/EnhancedTableHead';
-import MoreActionMenuButton from 'azrmui/core/Buttons/MoreActionMenuButton';
-import ProgressWithMask from 'azrmui/core/Progress/ProgressWithMask';
+import EnhancedTableHead from './EnhancedTableHead';
+import MoreActionMenuButton from '../Buttons/MoreActionMenuButton';
+import ProgressWithMask from '../Progress/ProgressWithMask';
 
 const useStyles = makeStyles(theme => ({
   root: {

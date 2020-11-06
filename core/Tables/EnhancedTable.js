@@ -27,11 +27,11 @@ var _ChevronRight = _interopRequireDefault(require("@material-ui/icons/ChevronRi
 
 var _ExpandMore = _interopRequireDefault(require("@material-ui/icons/ExpandMore"));
 
-var _EnhancedTableHead = _interopRequireDefault(require("azrmui/core/Tables/EnhancedTableHead"));
+var _EnhancedTableHead = _interopRequireDefault(require("./EnhancedTableHead"));
 
-var _MoreActionMenuButton = _interopRequireDefault(require("azrmui/core/Buttons/MoreActionMenuButton"));
+var _MoreActionMenuButton = _interopRequireDefault(require("../Buttons/MoreActionMenuButton"));
 
-var _ProgressWithMask = _interopRequireDefault(require("azrmui/core/Progress/ProgressWithMask"));
+var _ProgressWithMask = _interopRequireDefault(require("../Progress/ProgressWithMask"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
