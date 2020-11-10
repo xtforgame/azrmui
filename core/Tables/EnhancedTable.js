@@ -190,7 +190,7 @@ var _default = props => {
       padding: "checkbox",
       className: classes.actionsCell
     }, _react.default.createElement(_MoreActionMenuButton.default, {
-      getActionMenuItems: getActionMenuItems
+      getActionMenuItems: closeMenu => getActionMenuItems(closeMenu, row)
     }))), withDetail && expanded && _react.default.createElement(_TableRow.default, null, _react.default.createElement(_TableCell.default, {
       colSpan: columns.length + +withDetail + +!!getActionMenuItems,
       className: classes.detailCell

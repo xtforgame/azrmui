@@ -193,7 +193,7 @@ export default (props) => {
                     && (
                       <TableCell padding="checkbox" className={classes.actionsCell}>
                         <MoreActionMenuButton
-                          getActionMenuItems={getActionMenuItems}
+                          getActionMenuItems={closeMenu => getActionMenuItems(closeMenu, row)}
                         />
                       </TableCell>
                     )
