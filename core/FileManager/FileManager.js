@@ -3,11 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.default = _default;
 
 var _react = _interopRequireWildcard(require("react"));
-
-var _styles = require("@material-ui/core/styles");
 
 var _Typography = _interopRequireDefault(require("@material-ui/core/Typography"));
 
@@ -49,9 +47,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 const invalidFolderRegex = /[<>:"/|?*]/;
 const VirtualizeSwipeableViews = (0, _reactSwipeableViewsUtils.bindKeyboard)((0, _reactSwipeableViewsUtils.virtualize)(_reactSwipeableViews.default));
-const useStyles = (0, _styles.makeStyles)(() => ({}));
 
-const defaultRenderFolderView = (params, _ref) => {
+function defaultRenderFolderView(params, _ref) {
   let {
     viewPaths
   } = _ref,
@@ -67,9 +64,9 @@ const defaultRenderFolderView = (params, _ref) => {
     index: index,
     paths: viewPaths
   }, rest));
-};
+}
 
-var _default = props => {
+function _default(props) {
   const {
     getFileList,
     createFileOrFolder = async () => {},
@@ -82,9 +79,9 @@ var _default = props => {
         return 'folder name contains invalid character: <, >, :, ", /, \\, |, ?, *';
       }
 
-      return null;
+      return undefined;
     },
-    updateViewCallbacks = () => {},
+    updateViewCallbacks = () => null,
     canCreate = async () => {},
     onPathsChange = () => {},
     renderFolderView: rfv,
@@ -93,13 +90,14 @@ var _default = props => {
     selection,
     SwipeableViewsProps,
     customProps,
+    fileFilter,
     value,
     onChange = () => {}
   } = props;
   const [controlled] = (0, _react.useState)(!!value);
   let [paths, _setPaths] = (0, _react.useState)(value || []);
 
-  if (controlled) {
+  if (controlled && value) {
     paths = value;
     _setPaths = onChange;
   }
@@ -112,19 +110,25 @@ var _default = props => {
 
   const currentPathKey = paths.join('/');
   const renderFolderView = rfv || defaultRenderFolderView;
-  const [createFileOrFolderInfo, setCreateFileOrFolderInfo] = (0, _react.useState)();
+  const [createFileOrFolderInfo, setCreateFileOrFolderInfo] = (0, _react.useState)(null);
   const {
     renderDialog,
     useDialogWithButtonStateResult: [, {
-      handleOpen
+      handleOpen = () => {}
     }]
   } = (0, _useFormDialogInput.default)({
     displayValue: v => v,
     onChange: filename => {
       if (filename && createFileOrFolderInfo && createFileOrFolderInfo.cb) {
-        createFileOrFolder(_objectSpread({
+        const result = createFileOrFolder(_objectSpread({
           filename
-        }, createFileOrFolderInfo)).then(result => createFileOrFolderInfo.cb(result));
+        }, createFileOrFolderInfo));
+
+        if (typeof result === 'string' || !result) {
+          createFileOrFolderInfo.cb(result);
+        } else {
+          result.then(result => createFileOrFolderInfo.cb(result));
+        }
       }
     },
     onOpen: data => {
@@ -238,11 +242,10 @@ var _default = props => {
         currentPathKey,
         onSelect,
         selection,
-        customProps
+        customProps,
+        fileFilter
       });
     },
     disabled: true
   }, SwipeableViewsProps))), renderDialog());
-};
-
-exports.default = _default;
+}

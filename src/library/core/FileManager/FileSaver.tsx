@@ -1,10 +1,11 @@
+/* eslint-disable react/jsx-filename-extension */
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
+// import MenuItem from '@material-ui/core/MenuItem';
 import DialogActions from '@material-ui/core/DialogActions';
 import useFormDialogInput from '../FormInputs/FormDialogInput/useFormDialogInput';
 import useStateWithError from '../../hooks/useStateWithError';
-import useDialogState, { Cancel } from '../../hooks/useDialogState';
+import useDialogState /* , { Cancel } */ from '../../hooks/useDialogState';
 import DialogEx from '../Dialogs/DialogEx';
 import ConfirmDialog from '../Dialogs/ConfirmDialog';
 import { FormTextField } from '../FormInputs';
@@ -29,8 +30,8 @@ export default (p) => {
     getViewOptions: () => ({}),
   });
 
-  let handleOverwriteDialogOpen = null;
-  let save = null;
+  let handleOverwriteDialogOpen : Function = () => null;
+  let save : Function = () => null;
 
   const {
     renderButton,
@@ -109,36 +110,56 @@ export default (p) => {
           />
           <Button
             autoFocus
-            onClick={async () => {
+            onClick={() => {
+              const handleSave = () => {
+                const result = isFileExists({
+                  filename,
+                  type: 'file',
+                  params: {
+                    options: viewCallbacks.getViewOptions(),
+                  },
+                });
+                if (result === true) {
+                  handleOverwriteDialogOpen();
+                } else if (result === false) {
+                  save(handleClose);
+                } else {
+                  result.then((r) => {
+                    if (r === true) {
+                      handleOverwriteDialogOpen();
+                    } else if (r === false) {
+                      save(handleClose);
+                    }
+                  });
+                }
+              };
               if (props.canCreate) {
                 try {
-                  const errorMsg = await Promise.resolve(props.canCreate({
+                  const result = props.canCreate({
                     filename,
                     type: 'file',
                     params: {
                       options: viewCallbacks.getViewOptions(),
                     },
-                  }));
-                  if (errorMsg) {
-                    setFilenameError(errorMsg);
+                  });
+                  if (!result) {
+                    handleSave();
+                  }
+                  if (typeof result === 'string') {
+                    setFilenameError(result);
                     return;
+                  } else {
+                    result.then((errorMsg) => {
+                      if (errorMsg) {
+                        setFilenameError(errorMsg);
+                        return;
+                      }
+                      handleSave();
+                    });
                   }
                 } catch (error) {
                   setFilenameError(error.message);
-                  return;
                 }
-              }
-              const fileExists = await Promise.resolve(isFileExists({
-                filename,
-                type: 'file',
-                params: {
-                  options: viewCallbacks.getViewOptions(),
-                },
-              }));
-              if (fileExists) {
-                handleOverwriteDialogOpen();
-              } else {
-                save(handleClose);
               }
             }}
             color="primary"
@@ -160,7 +181,7 @@ export default (p) => {
   };
 
   const [{
-    open,
+    // open,
     exited: overwriteDialogExited,
     dialogProps: overwriteDialogOpenProps,
   }, {
@@ -181,7 +202,9 @@ export default (p) => {
     },
   });
 
-  handleOverwriteDialogOpen = _handleOverwriteDialogOpen;
+  if (_handleOverwriteDialogOpen) {
+    handleOverwriteDialogOpen = _handleOverwriteDialogOpen;
+  }
 
   return (
     <React.Fragment>

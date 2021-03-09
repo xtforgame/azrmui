@@ -41,7 +41,6 @@ const SearchInput = props => {
   const endAdornment = _react.default.createElement(_InputAdornment.default, {
     position: "end"
   }, _react.default.createElement(_IconButton.default, {
-    tabIndex: "-1",
     onClick: onClear,
     onMouseDown: event => {
       event.preventDefault();

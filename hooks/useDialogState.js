@@ -17,9 +17,9 @@ const Cancel = Symbol('Cancel');
 exports.Cancel = Cancel;
 
 var _default = ({
-  open: openFunc = () => {},
-  close: closeFunc = () => {},
-  exited: exitedFunc = () => {},
+  open: openFunc = (...args) => {},
+  close: closeFunc = (...args) => {},
+  exited: exitedFunc = (...args) => {},
   dialogProps: dp = {}
 }) => {
   const [open, setOpen] = (0, _react.useState)(false);

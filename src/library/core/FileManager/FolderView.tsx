@@ -1,10 +1,17 @@
+/* eslint-disable react/jsx-filename-extension */
 import React, { useState, useEffect, useRef } from 'react';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ProgressWithMask from '../Progress/ProgressWithMask';
 import DefaultListItem from './ListItem';
+import {
+  RenderListItemFunction,
+  FolderViewProps,
+  FolderViewCbs,
+  FileListItem,
+} from './interfaces';
 
-const defaultRenderListItem = (info, options) => (
+const defaultRenderListItem : RenderListItemFunction = (info, options) => (
   <DefaultListItem
     key={info.name}
     info={info}
@@ -13,7 +20,7 @@ const defaultRenderListItem = (info, options) => (
   />
 );
 
-export default (props) => {
+export default (props : FolderViewProps) => {
   const {
     index,
     fullPaths,
@@ -21,7 +28,8 @@ export default (props) => {
     setPaths,
     getFileList,
     handleCreate,
-    updateViewCallbacks = () => {},
+    updateViewCallbacks,
+    fileFilter: ff,
     ...o
   } = props;
 
@@ -31,20 +39,30 @@ export default (props) => {
   } = props;
 
 
-  const fileFilter = (props.customProps && props.customProps.fileFilter) || (() => true);
+  const fileFilter = ff || (() => true);
 
-  const [allList, setAllList] = useState(null);
+  const [allList, setAllList] = useState<FileListItem[] | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
-  const al = useRef();
+  const al = useRef<Promise<FileListItem[]> | FileListItem[]>();
 
   const renderListItem = props.renderListItem || defaultRenderListItem;
 
   const clearList = () => setAllList(null);
   const refresh = () => setRefreshKey(refreshKey + 1);
 
-  const rawCbs = useRef({
+  const rawCbs = useRef<FolderViewCbs>({
     clearList,
     refresh,
+    getViewOptions: () => ({
+      appendPath: p => setPaths([...paths, p]),
+      fullPaths,
+      paths,
+      ...o,
+      clearList,
+      refresh,
+      handleCreate,
+      fileFilter,
+    }),
   });
 
   rawCbs.current = {
@@ -58,15 +76,24 @@ export default (props) => {
       clearList,
       refresh,
       handleCreate,
+      fileFilter,
     }),
   };
-
-  const options = rawCbs.current.getViewOptions();
 
   const callbacks = useRef({
     clearList: () => rawCbs.current.clearList(),
     refresh: () => rawCbs.current.refresh(),
-    getViewOptions: () => rawCbs.current.getViewOptions(),
+    getViewOptions: () => rawCbs.current.getViewOptions({
+      clearList,
+      refresh,
+      getViewOptions: rawCbs.current.getViewOptions,
+    }),
+  });
+
+  const options = rawCbs.current.getViewOptions({
+    clearList,
+    refresh,
+    getViewOptions: rawCbs.current.getViewOptions,
   });
 
   useEffect(() => {
@@ -105,7 +132,7 @@ export default (props) => {
 
   if (!allList) {
     return (
-      <div style={{ height: '100%' }}>
+      <div key={index} style={{ height: '100%' }}>
         <ProgressWithMask delay={100} />
       </div>
     );
@@ -128,9 +155,9 @@ export default (props) => {
   folderList.sort(sortFunc);
 
   return (
-    <List dense>
-      {renderListItem({ type: 'newFile' }, options)}
-      {renderListItem({ type: 'newFolder' }, options)}
+    <List dense key={index}>
+      {renderListItem({ type: 'newFile', name: 'newFile', relPath: '' }, options)}
+      {renderListItem({ type: 'newFolder', name: 'newFolder', relPath: '' }, options)}
       <Divider />
       {folderList.map(info => renderListItem(info, options))}
       {fileList.map(info => renderListItem(info, options))}

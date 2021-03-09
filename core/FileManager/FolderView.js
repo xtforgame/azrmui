@@ -47,16 +47,17 @@ var _default = props => {
     setPaths,
     getFileList,
     handleCreate,
-    updateViewCallbacks = () => {}
+    updateViewCallbacks,
+    fileFilter: ff
   } = props,
-        o = _objectWithoutProperties(props, ["index", "fullPaths", "paths", "setPaths", "getFileList", "handleCreate", "updateViewCallbacks"]);
+        o = _objectWithoutProperties(props, ["index", "fullPaths", "paths", "setPaths", "getFileList", "handleCreate", "updateViewCallbacks", "fileFilter"]);
 
   const {
     pathKey,
     currentPathKey
   } = props;
 
-  const fileFilter = props.customProps && props.customProps.fileFilter || (() => true);
+  const fileFilter = ff || (() => true);
 
   const [allList, setAllList] = (0, _react.useState)(null);
   const [refreshKey, setRefreshKey] = (0, _react.useState)(0);
@@ -69,7 +70,17 @@ var _default = props => {
 
   const rawCbs = (0, _react.useRef)({
     clearList,
-    refresh
+    refresh,
+    getViewOptions: () => _objectSpread({
+      appendPath: p => setPaths([...paths, p]),
+      fullPaths,
+      paths
+    }, o, {
+      clearList,
+      refresh,
+      handleCreate,
+      fileFilter
+    })
   });
   rawCbs.current = {
     clearList,
@@ -81,14 +92,23 @@ var _default = props => {
     }, o, {
       clearList,
       refresh,
-      handleCreate
+      handleCreate,
+      fileFilter
     })
   };
-  const options = rawCbs.current.getViewOptions();
   const callbacks = (0, _react.useRef)({
     clearList: () => rawCbs.current.clearList(),
     refresh: () => rawCbs.current.refresh(),
-    getViewOptions: () => rawCbs.current.getViewOptions()
+    getViewOptions: () => rawCbs.current.getViewOptions({
+      clearList,
+      refresh,
+      getViewOptions: rawCbs.current.getViewOptions
+    })
+  });
+  const options = rawCbs.current.getViewOptions({
+    clearList,
+    refresh,
+    getViewOptions: rawCbs.current.getViewOptions
   });
   (0, _react.useEffect)(() => {
     if (index < 0 || index > paths.length) {
@@ -122,6 +142,7 @@ var _default = props => {
 
   if (!allList) {
     return _react.default.createElement("div", {
+      key: index,
       style: {
         height: '100%'
       }
@@ -148,11 +169,16 @@ var _default = props => {
   const folderList = filteredList.filter(info => info.type === 'folder');
   folderList.sort(sortFunc);
   return _react.default.createElement(_List.default, {
-    dense: true
+    dense: true,
+    key: index
   }, renderListItem({
-    type: 'newFile'
+    type: 'newFile',
+    name: 'newFile',
+    relPath: ''
   }, options), renderListItem({
-    type: 'newFolder'
+    type: 'newFolder',
+    name: 'newFolder',
+    relPath: ''
   }, options), _react.default.createElement(_Divider.default, null), folderList.map(info => renderListItem(info, options)), fileList.map(info => renderListItem(info, options)));
 };
 

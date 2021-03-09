@@ -1,6 +1,7 @@
+/* eslint-disable react/jsx-filename-extension */
 import React, { useState } from 'react';
 // import jsonpointer from 'jsonpointer';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
@@ -11,22 +12,28 @@ import { virtualize, bindKeyboard } from 'react-swipeable-views-utils';
 import InputDialog from '../Dialogs/InputDialog';
 import useFormDialogInput from '../FormInputs/FormDialogInput/useFormDialogInput';
 import FolderView from './FolderView';
+import {
+  FileManagerProps,
+  CreateFileOrFolderInfo,
+  RenderFolderViewOption,
+} from './interfaces';
 
 const invalidFolderRegex = /[<>:"/|?*]/;
 
 const VirtualizeSwipeableViews = bindKeyboard(virtualize(SwipeableViews));
 
-const useStyles = makeStyles(() => ({
-}));
+// const useStyles = makeStyles(() => ({
+// }));
 
 // const jsonpointerPath = paths.map(p => `/${p}/children`).join('');
 // // console.log('jsonpointerPath :', jsonpointerPath);
 // const currentList = jsonpointer.get(fileTree, jsonpointerPath);
 
-const defaultRenderFolderView = (params, {
+
+function defaultRenderFolderView<CustomProps = any>(params: any, {
   viewPaths,
   ...rest
-}) => {
+}: RenderFolderViewOption<CustomProps>) {
   const { index, key } = params;
   return (
     <FolderView
@@ -37,9 +44,9 @@ const defaultRenderFolderView = (params, {
       {...rest}
     />
   );
-};
+}
 
-export default (props) => {
+export default function <CustomProps = any> (props : FileManagerProps<CustomProps>) {
   const {
     getFileList,
     createFileOrFolder = async () => {},
@@ -50,9 +57,9 @@ export default (props) => {
       if (invalidFolderRegex.test(t)) {
         return 'folder name contains invalid character: <, >, :, ", /, \\, |, ?, *';
       }
-      return null;
+      return undefined;
     }),
-    updateViewCallbacks = () => {},
+    updateViewCallbacks = () => null,
     canCreate = (async () => {}),
     onPathsChange = () => {},
     renderFolderView: rfv,
@@ -61,13 +68,14 @@ export default (props) => {
     selection,
     SwipeableViewsProps,
     customProps,
+    fileFilter,
 
     value,
     onChange = () => {},
   } = props;
   const [controlled] = useState(!!value);
   let [paths, _setPaths] = useState(value || []);
-  if (controlled) {
+  if (controlled && value) {
     paths = value;
     _setPaths = onChange;
   }
@@ -82,20 +90,24 @@ export default (props) => {
 
   // ====================
 
-  const [createFileOrFolderInfo, setCreateFileOrFolderInfo] = useState();
+  const [createFileOrFolderInfo, setCreateFileOrFolderInfo] = useState<CreateFileOrFolderInfo | null>(null);
   const {
     // renderButton,
     renderDialog,
-    useDialogWithButtonStateResult: [, { handleOpen }],
+    useDialogWithButtonStateResult: [, { handleOpen = () => {} }],
   } = useFormDialogInput({
     displayValue: v => v,
     onChange: (filename) => {
       if (filename && createFileOrFolderInfo && createFileOrFolderInfo.cb) {
-        createFileOrFolder({
+        const result = createFileOrFolder({
           filename,
           ...createFileOrFolderInfo,
-        })
-        .then(result => createFileOrFolderInfo.cb(result));
+        });
+        if (typeof result === 'string' || !result) {
+          createFileOrFolderInfo.cb(result);
+        } else {
+          result.then(result => createFileOrFolderInfo.cb(result));
+        }
       }
     },
     onOpen: (data) => {
@@ -207,6 +219,7 @@ export default (props) => {
               onSelect,
               selection,
               customProps,
+              fileFilter,
             });
           }}
           disabled
@@ -217,4 +230,4 @@ export default (props) => {
       {renderDialog()}
     </div>
   );
-};
+}

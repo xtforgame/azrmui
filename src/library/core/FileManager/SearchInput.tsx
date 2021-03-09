@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types, react/forbid-prop-types */
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { compose } from 'recompose';
 import PropTypes from 'prop-types';
@@ -21,7 +22,7 @@ const SearchInput = (props) => {
   const endAdornment = (
     <InputAdornment position="end">
       <IconButton
-        tabIndex="-1"
+        // tabIndex="-1"
         onClick={onClear}
         onMouseDown={(event) => {
           event.preventDefault();

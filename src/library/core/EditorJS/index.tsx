@@ -1,6 +1,6 @@
 // https://github.com/stfy/react-editor.js
 import React from 'react';
-import EditorJS, { EditorConfig, OutputData } from '@editorjs/editorjs';
+import EditorJS, { EditorConfig, OutputData, API } from '@editorjs/editorjs';
 
 export interface WrapperProps extends EditorConfig {
   reinitOnPropsChange?: boolean;
@@ -51,11 +51,11 @@ export class EditorWrapper extends React.PureComponent<WrapperProps> {
     });
   }
 
-  handleChange = async () => {
+  handleChange = async (api: API) => {
     const { onChange, onData } = this.props;
 
     if (onChange && typeof onChange === 'function') {
-      onChange();
+      onChange(api);
     }
 
     if (onData && typeof onData === 'function') {

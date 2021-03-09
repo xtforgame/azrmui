@@ -19,15 +19,11 @@ var _ListItemText = _interopRequireDefault(require("@material-ui/core/ListItemTe
 
 var _Avatar = _interopRequireDefault(require("@material-ui/core/Avatar"));
 
-var _IconButton = _interopRequireDefault(require("@material-ui/core/IconButton"));
-
 var _Add = _interopRequireDefault(require("@material-ui/icons/Add"));
 
 var _Folder = _interopRequireDefault(require("@material-ui/icons/Folder"));
 
 var _InsertDriveFile = _interopRequireDefault(require("@material-ui/icons/InsertDriveFile"));
-
-var _KeyboardArrowRight = _interopRequireDefault(require("@material-ui/icons/KeyboardArrowRight"));
 
 var _colors = require("@material-ui/core/colors");
 
@@ -59,11 +55,9 @@ var _default = props => {
     info,
     appendPath,
     onSelect = () => {},
-    selection,
     customProps,
     viewOptions,
-    handleCreate,
-    paths
+    handleCreate
   } = props;
   const classes = useStyles();
   const renderAction = customProps && customProps.renderAction;
@@ -75,7 +69,7 @@ var _default = props => {
 
   if (info.type === 'newFolder') {
     return _react.default.createElement(_ListItem.default, {
-      key: info.name,
+      key: "new/folder",
       button: true,
       onClick: () => {
         if (info.type === 'folder') {

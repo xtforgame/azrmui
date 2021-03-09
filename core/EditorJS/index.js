@@ -29,14 +29,14 @@ class EditorWrapper extends _react.default.PureComponent {
 
     _defineProperty(this, "node", _react.default.createRef());
 
-    _defineProperty(this, "handleChange", async () => {
+    _defineProperty(this, "handleChange", async api => {
       const {
         onChange,
         onData
       } = this.props;
 
       if (onChange && typeof onChange === 'function') {
-        onChange();
+        onChange(api);
       }
 
       if (onData && typeof onData === 'function') {

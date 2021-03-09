@@ -1,24 +1,33 @@
+/* eslint-disable react/jsx-filename-extension */
 import React, { useState } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
 import SearchInput from './SearchInput';
 import IconWithTextToolbar from '../Toolbars/IconWithTextToolbar';
-import SearchToolbar from '../Toolbars/SearchToolbar';
+// import SearchToolbar from '../Toolbars/SearchToolbar';
 import FileManager from './FileManager';
+import { FileManagerProps } from './interfaces';
 
-export default (props) => {
+export type WithSearchProps<CustomProps = any> = FileManagerProps<CustomProps> & {
+  title: string;
+  onClose: Function;
+
+};
+
+export default function WithSearch<CustomProps = any>(props : WithSearchProps<CustomProps>) {
   const {
     title,
     customProps = {},
     onClose,
+    fileFilter: ff = (() => true),
     ...rest
   } = props;
 
   const [isSearching, setIsSearching] = useState(false);
   const [searchText, setSearchText] = useState('');
 
-  const rawFileFilter = customProps.fileFilter || ((
+  const rawFileFilter = ((
     info,
     {
       isSearching,
@@ -27,9 +36,13 @@ export default (props) => {
     options,
   ) => {
     if (!isSearching) {
-      return true;
+      return ff(info, options);
     }
-    return info.relPath && info.relPath.includes(searchText);
+    const result : boolean = !!info.relPath && info.relPath.includes(searchText);
+    if (result) {
+      return ff(info, options);
+    }
+    return false;
   });
 
   const searchInfo = {
@@ -79,14 +92,12 @@ export default (props) => {
       >
         <div style={{ flex: 1, overflowY: 'hidden' }}>
           <FileManager
-            customProps={{
-              fileFilter,
-              ...customProps,
-            }}
+            customProps={customProps}
+            fileFilter={fileFilter}
             {...rest}
           />
         </div>
       </div>
     </div>
   );
-};
+}

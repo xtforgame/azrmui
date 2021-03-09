@@ -3,9 +3,9 @@ import { useState } from 'react';
 export const Cancel = Symbol('Cancel');
 
 export default ({
-  open: openFunc = () => {},
-  close: closeFunc = () => {},
-  exited: exitedFunc = () => {},
+  open: openFunc = (...args) => {},
+  close: closeFunc = (...args) => {},
+  exited: exitedFunc = (...args) => {},
   dialogProps: dp = {},
 }) => {
   const [open, setOpen] = useState(false);

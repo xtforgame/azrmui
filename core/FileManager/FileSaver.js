@@ -9,15 +9,13 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _Button = _interopRequireDefault(require("@material-ui/core/Button"));
 
-var _MenuItem = _interopRequireDefault(require("@material-ui/core/MenuItem"));
-
 var _DialogActions = _interopRequireDefault(require("@material-ui/core/DialogActions"));
 
 var _useFormDialogInput = _interopRequireDefault(require("../FormInputs/FormDialogInput/useFormDialogInput"));
 
 var _useStateWithError = _interopRequireDefault(require("../../hooks/useStateWithError"));
 
-var _useDialogState = _interopRequireWildcard(require("../../hooks/useDialogState"));
+var _useDialogState = _interopRequireDefault(require("../../hooks/useDialogState"));
 
 var _DialogEx = _interopRequireDefault(require("../Dialogs/DialogEx"));
 
@@ -55,8 +53,11 @@ var _default = p => {
     refresh: () => {},
     getViewOptions: () => ({})
   });
-  let handleOverwriteDialogOpen = null;
-  let save = null;
+
+  let handleOverwriteDialogOpen = () => null;
+
+  let save = () => null;
+
   const {
     renderButton,
     renderDialog,
@@ -108,39 +109,61 @@ var _default = p => {
       fullWidth: true
     }), _react.default.createElement(_Button.default, {
       autoFocus: true,
-      onClick: async () => {
+      onClick: () => {
+        const handleSave = () => {
+          const result = isFileExists({
+            filename,
+            type: 'file',
+            params: {
+              options: viewCallbacks.getViewOptions()
+            }
+          });
+
+          if (result === true) {
+            handleOverwriteDialogOpen();
+          } else if (result === false) {
+            save(handleClose);
+          } else {
+            result.then(r => {
+              if (r === true) {
+                handleOverwriteDialogOpen();
+              } else if (r === false) {
+                save(handleClose);
+              }
+            });
+          }
+        };
+
         if (props.canCreate) {
           try {
-            const errorMsg = await Promise.resolve(props.canCreate({
+            const result = props.canCreate({
               filename,
               type: 'file',
               params: {
                 options: viewCallbacks.getViewOptions()
               }
-            }));
+            });
 
-            if (errorMsg) {
-              setFilenameError(errorMsg);
+            if (!result) {
+              handleSave();
+            }
+
+            if (typeof result === 'string') {
+              setFilenameError(result);
               return;
+            } else {
+              result.then(errorMsg => {
+                if (errorMsg) {
+                  setFilenameError(errorMsg);
+                  return;
+                }
+
+                handleSave();
+              });
             }
           } catch (error) {
             setFilenameError(error.message);
-            return;
           }
-        }
-
-        const fileExists = await Promise.resolve(isFileExists({
-          filename,
-          type: 'file',
-          params: {
-            options: viewCallbacks.getViewOptions()
-          }
-        }));
-
-        if (fileExists) {
-          handleOverwriteDialogOpen();
-        } else {
-          save(handleClose);
         }
       },
       color: "primary"
@@ -157,7 +180,6 @@ var _default = p => {
   };
 
   const [{
-    open,
     exited: overwriteDialogExited,
     dialogProps: overwriteDialogOpenProps
   }, {
@@ -171,7 +193,11 @@ var _default = p => {
       }
     }
   });
-  handleOverwriteDialogOpen = _handleOverwriteDialogOpen;
+
+  if (_handleOverwriteDialogOpen) {
+    handleOverwriteDialogOpen = _handleOverwriteDialogOpen;
+  }
+
   return _react.default.createElement(_react.default.Fragment, null, renderButton(), renderDialog(), !overwriteDialogExited && _react.default.createElement(_ConfirmDialog.default, {
     title: "Create Folder",
     contentText: "Folder Name",
