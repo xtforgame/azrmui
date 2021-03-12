@@ -212,8 +212,8 @@ export default (p) => {
       {renderDialog()}
       {!overwriteDialogExited && (
         <ConfirmDialog
-          title="Create Folder"
-          contentText="Folder Name"
+          title="File exists"
+          contentText="File exists, do you want to overwrite?"
           onClose={handleOverwriteDialogClose}
           dialogProps={overwriteDialogOpenProps}
         />

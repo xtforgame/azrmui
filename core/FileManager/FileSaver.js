@@ -199,8 +199,8 @@ var _default = p => {
   }
 
   return _react.default.createElement(_react.default.Fragment, null, renderButton(), renderDialog(), !overwriteDialogExited && _react.default.createElement(_ConfirmDialog.default, {
-    title: "Create Folder",
-    contentText: "Folder Name",
+    title: "File exists",
+    contentText: "File exists, do you want to overwrite?",
     onClose: handleOverwriteDialogClose,
     dialogProps: overwriteDialogOpenProps
   }));
