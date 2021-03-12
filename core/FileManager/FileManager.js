@@ -119,7 +119,7 @@ function _default(props) {
   } = (0, _useFormDialogInput.default)({
     displayValue: v => v,
     onChange: filename => {
-      if (filename && createFileOrFolderInfo && createFileOrFolderInfo.cb) {
+      if (filename && typeof filename === 'string' && createFileOrFolderInfo && createFileOrFolderInfo.cb) {
         const result = createFileOrFolder(_objectSpread({
           filename
         }, createFileOrFolderInfo));

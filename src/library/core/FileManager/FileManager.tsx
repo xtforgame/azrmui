@@ -98,7 +98,7 @@ export default function <CustomProps = any> (props : FileManagerProps<CustomProp
   } = useFormDialogInput({
     displayValue: v => v,
     onChange: (filename) => {
-      if (filename && createFileOrFolderInfo && createFileOrFolderInfo.cb) {
+      if (filename && typeof filename === 'string' && createFileOrFolderInfo && createFileOrFolderInfo.cb) {
         const result = createFileOrFolder({
           filename,
           ...createFileOrFolderInfo,
