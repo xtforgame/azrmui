@@ -2,7 +2,24 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import MuiMenu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import { FormFieldButton } from '~/core/FormInputs';
+
+
+const defaultMenuItem = ({
+  option,
+  // selectedOption,
+  isSelected,
+  handleOptionClick,
+}) => (
+  <MenuItem
+    key={option.id || option}
+    selected={isSelected}
+    onClick={handleOptionClick}
+  >
+    {`${option.name || option}`}
+  </MenuItem>
+);
 
 const useStyles = makeStyles(theme => ({
 }));
@@ -11,10 +28,11 @@ export default (props) => {
   const {
     id,
     options = [],
-    getMenuItem = () => null,
+    isSelectedFunc = ({ option, value }) => option === value,
+    getMenuItem = defaultMenuItem,
     value,
     onChange = () => {},
-    toInputValue = (value, i) => '',
+    toInputValue = (value, i) => value,
     toButtonValue: tbv,
     Menu = MuiMenu,
     ...p
@@ -60,7 +78,7 @@ export default (props) => {
             option,
             index,
             selectedOption: option,
-            isSelected: option === value,
+            isSelected: isSelectedFunc({ option, value }),
             handleOptionClick: event => handleOptionClick(event, option, index),
           }))
         }

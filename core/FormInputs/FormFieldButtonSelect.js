@@ -11,6 +11,8 @@ var _styles = require("@material-ui/core/styles");
 
 var _Menu = _interopRequireDefault(require("@material-ui/core/Menu"));
 
+var _MenuItem = _interopRequireDefault(require("@material-ui/core/MenuItem"));
+
 var _ = require("./");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -25,20 +27,34 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
+const defaultMenuItem = ({
+  option,
+  isSelected,
+  handleOptionClick
+}) => _react.default.createElement(_MenuItem.default, {
+  key: option.id || option,
+  selected: isSelected,
+  onClick: handleOptionClick
+}, `${option.name || option}`);
+
 const useStyles = (0, _styles.makeStyles)(theme => ({}));
 
 var _default = props => {
   const {
     id,
     options = [],
-    getMenuItem = () => null,
+    isSelectedFunc = ({
+      option,
+      value
+    }) => option === value,
+    getMenuItem = defaultMenuItem,
     value,
     onChange = () => {},
-    toInputValue = (value, i) => '',
+    toInputValue = (value, i) => value,
     toButtonValue: tbv,
     Menu = _Menu.default
   } = props,
-        p = _objectWithoutProperties(props, ["id", "options", "getMenuItem", "value", "onChange", "toInputValue", "toButtonValue", "Menu"]);
+        p = _objectWithoutProperties(props, ["id", "options", "isSelectedFunc", "getMenuItem", "value", "onChange", "toInputValue", "toButtonValue", "Menu"]);
 
   const toButtonValue = tbv || toInputValue;
   const classes = useStyles();
@@ -71,7 +87,10 @@ var _default = props => {
     option,
     index,
     selectedOption: option,
-    isSelected: option === value,
+    isSelected: isSelectedFunc({
+      option,
+      value
+    }),
     handleOptionClick: event => handleOptionClick(event, option, index)
   }))));
 };
