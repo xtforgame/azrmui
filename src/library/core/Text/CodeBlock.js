@@ -1,10 +1,22 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 
-export default props => (
-  <pre
-    {...props}
-    style={{
-      fontFamily: 'monospace,monospace',
-    }}
-  />
-);
+const useStyles = makeStyles(theme => ({
+  root: {
+    fontFamily: 'monospace,monospace',
+  },
+}));
+
+export default (props) => {
+  const {
+    className,
+  } = props;
+  const classes = useStyles();
+  return (
+    <pre
+      {...props}
+      className={clsx(classes.root, className)}
+    />
+  );
+};
