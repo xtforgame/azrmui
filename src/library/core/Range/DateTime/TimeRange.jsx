@@ -9,6 +9,9 @@ export default (props) => {
     upperBound,
     onLowerBoundChange,
     onUpperBoundChange,
+    PickerProps = {},
+    Picker1Props = {},
+    Picker2Props = {},
   } = props;
 
   const { t } = useTranslation(['builtin-components']);
@@ -17,12 +20,16 @@ export default (props) => {
     <React.Fragment>
       <FormTimePicker
         label={t('timeStart')}
+        {...PickerProps}
+        {...Picker1Props}
         value={lowerBound}
         onChange={onLowerBoundChange}
       />
       <FormSpace variant="content2" />
       <FormTimePicker
         label={t('timeEnd')}
+        {...PickerProps}
+        {...Picker2Props}
         value={upperBound}
         onChange={onUpperBoundChange}
       />
