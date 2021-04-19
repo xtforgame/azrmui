@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { ImageInfo, HandleUpload, Context } from '~/core/FormInputs/FormImagesInput/uploadContext';
 export declare type OnAddImageInfo = (imageInfo: ImageInfo, options: {
     context: Context;

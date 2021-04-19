@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { Paths, GetViewOptionsResult, FileListItem } from './interfaces';
 export declare type ListItemProps = GetViewOptionsResult & {
     info: FileListItem;

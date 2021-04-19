@@ -1,22 +1,30 @@
-/* eslint-disable react/prop-types, react/forbid-prop-types */
+/* eslint-disable react/prop-types, react/forbid-prop-types, react/jsx-filename-extension */
 import React from 'react';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import FormTextField from './FormTextField';
-import NumberFormatInput from './NumberFormatInput';
+import FormTextField, { FormTextFieldProps } from './FormTextField';
+import NumberFormatInput, { NumberFormatInputProps } from './NumberFormatInput';
 
-export default (props) => {
+export type FormNumberInputProps = FormTextFieldProps & {
+  currency?: boolean;
+  inputProps?: NumberFormatInputProps;
+  thousandSeparator?: (e: any) => boolean;
+};
+
+export default (props: FormNumberInputProps) => {
   const {
     currency,
     thousandSeparator = true,
     InputProps: IPs,
+    inputProps,
     ...rest
   } = props;
-  let InputProps = {
+  let InputProps : any = {
     inputComponent: NumberFormatInput,
     inputProps: {
       decimalScale: 0,
       thousandSeparator,
       // prefix: '$',
+      ...inputProps,
     },
   };
 

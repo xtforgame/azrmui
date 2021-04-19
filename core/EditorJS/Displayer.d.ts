@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { OutputData } from '@editorjs/editorjs';
 export declare const CeBlock: (props: any) => JSX.Element;
 export declare const CeBlockHeader: (props: any) => JSX.Element;

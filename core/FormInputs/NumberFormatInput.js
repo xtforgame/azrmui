@@ -17,28 +17,24 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-class NumberFormatInput extends _react.default.PureComponent {
-  render() {
-    const _this$props = this.props,
-          {
-      inputRef,
-      onChange
-    } = _this$props,
-          other = _objectWithoutProperties(_this$props, ["inputRef", "onChange"]);
+var _default = props => {
+  const {
+    inputRef,
+    onChange = () => {}
+  } = props,
+        other = _objectWithoutProperties(props, ["inputRef", "onChange"]);
 
-    return _react.default.createElement(_reactNumberFormat.default, _extends({
-      getInputRef: inputRef,
-      isNumericString: true,
-      onValueChange: values => {
-        onChange({
-          target: {
-            value: values.value
-          }
-        });
-      }
-    }, other));
-  }
+  return _react.default.createElement(_reactNumberFormat.default, _extends({
+    getInputRef: inputRef,
+    isNumericString: true,
+    onValueChange: values => {
+      onChange({
+        target: {
+          value: values.value
+        }
+      });
+    }
+  }, other));
+};
 
-}
-
-exports.default = NumberFormatInput;
+exports.default = _default;

@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { OnAddImageInfo, OnEditImageInfo, GetContent } from './ImagesInput';
 import { ImageInfo, HandleUpload } from './uploadContext';
 export * from './uploadContext';

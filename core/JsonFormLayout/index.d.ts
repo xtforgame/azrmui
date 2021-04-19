@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { IFieldLink, IInputLinker } from '~/utils/InputLinker/core/interfaces';
 import { JsonFormProps } from './interfaces';
 import useJsonForm from './useJsonForm';

@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { StateMode, IlHost, ProxyAndSliceName, IlPresetMap, IFieldLinkClass, IFieldLink, FieldValue, RawEventArgs, OnFieldValueChangeLinkInfo, RenderCtx, PreRenderCtx, FieldConfig, FieldObjectConfig, ProxyTypeName, PendingChanges, ConfigWithLastQueue, ValidateResult, LinkerNamespace, PendingChange } from './interfaces';
 export default class InputLinker<FieldLink extends IFieldLink<FieldLink>> {
     host: any;

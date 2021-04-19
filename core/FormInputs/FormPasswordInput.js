@@ -7,12 +7,6 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _recompose = require("recompose");
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _styles = require("@material-ui/core/styles");
-
 var _InputAdornment = _interopRequireDefault(require("@material-ui/core/InputAdornment"));
 
 var _IconButton = _interopRequireDefault(require("@material-ui/core/IconButton"));
@@ -31,9 +25,7 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-const styles = theme => ({});
-
-const FormPasswordInput = props => {
+var _default = props => {
   const {
     id,
     type = 'password',
@@ -44,7 +36,6 @@ const FormPasswordInput = props => {
   const endAdornment = _react.default.createElement(_InputAdornment.default, {
     position: "end"
   }, _react.default.createElement(_IconButton.default, {
-    tabIndex: "-1",
     onClick: onShowPassswordClick,
     onMouseDown: event => {
       event.preventDefault();
@@ -59,11 +50,5 @@ const FormPasswordInput = props => {
     }
   }, rest));
 };
-
-FormPasswordInput.propTypes = {
-  id: _propTypes.default.string.isRequired
-};
-
-var _default = (0, _recompose.compose)((0, _styles.withStyles)(styles))(FormPasswordInput);
 
 exports.default = _default;

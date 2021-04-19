@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { IFieldLink, IInputLinker, IInputLinkerClass } from './interfaces';
 export declare type CallbackType = (il: any, createOptions: any) => any;
 export declare type ResetLinkerFunction<FieldLink extends IFieldLink<FieldLink>, LinkerType extends IInputLinker<FieldLink>> = (resetOptions?: any) => LinkerType;

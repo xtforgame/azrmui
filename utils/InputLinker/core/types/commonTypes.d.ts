@@ -1,3 +1,4 @@
+/// <reference types="react" />
 export declare const ExtraChildren: unique symbol;
 export declare type IlHost = any;
 export declare type HostProps = {

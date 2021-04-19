@@ -7,13 +7,9 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _FormControlLabel = _interopRequireDefault(require("@material-ui/core/FormControlLabel"));
-
-var _Switch = _interopRequireDefault(require("@material-ui/core/Switch"));
+var _ConfirmDialogV = _interopRequireDefault(require("./ConfirmDialogV3"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
@@ -21,18 +17,27 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 var _default = props => {
   const {
-    label,
-    labelProps
+    title,
+    contents,
+    contentText,
+    buttonComponents,
+    buttonTexts,
+    onClose,
+    children,
+    fullScreen
   } = props,
-        rest = _objectWithoutProperties(props, ["label", "labelProps"]);
+        dialogProps = _objectWithoutProperties(props, ["title", "contents", "contentText", "buttonComponents", "buttonTexts", "onClose", "children", "fullScreen"]);
 
-  return _react.default.createElement(_FormControlLabel.default, _extends({
-    label: label,
-    labelPlacement: "start",
-    control: _react.default.createElement(_Switch.default, _extends({
-      color: "primary"
-    }, rest))
-  }, labelProps));
+  return _react.default.createElement(_ConfirmDialogV.default, {
+    title: title,
+    contents: contents,
+    contentText: contentText,
+    buttonComponents: buttonComponents,
+    buttonTexts: buttonTexts,
+    onClose: onClose,
+    fullScreen: fullScreen,
+    dialogProps: dialogProps
+  }, children);
 };
 
 exports.default = _default;

@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { IFieldLink, IInputLinker } from '~/utils/InputLinker/core/interfaces';
 import { LayoutFeatureProps } from './useLayoutFeatures';
 export declare const defaultIlOnInit: <FieldLink extends IFieldLink<FieldLink>, LinkerType extends IInputLinker<FieldLink>>(props: any) => (il: LinkerType) => void;

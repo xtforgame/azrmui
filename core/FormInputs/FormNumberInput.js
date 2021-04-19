@@ -31,16 +31,17 @@ var _default = props => {
   const {
     currency,
     thousandSeparator = true,
-    InputProps: IPs
+    InputProps: IPs,
+    inputProps
   } = props,
-        rest = _objectWithoutProperties(props, ["currency", "thousandSeparator", "InputProps"]);
+        rest = _objectWithoutProperties(props, ["currency", "thousandSeparator", "InputProps", "inputProps"]);
 
   let InputProps = {
     inputComponent: _NumberFormatInput.default,
-    inputProps: {
+    inputProps: _objectSpread({
       decimalScale: 0,
       thousandSeparator
-    }
+    }, inputProps)
   };
 
   if (currency) {

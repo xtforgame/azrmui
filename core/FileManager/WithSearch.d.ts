@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { FileManagerProps } from './interfaces';
 export declare type WithSearchProps<CustomProps = any> = FileManagerProps<CustomProps> & {
     title: string;

@@ -3,6 +3,8 @@ import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { withInfo } from '@storybook/addon-info';
 import FormPhoneOrEmailInput from './FormPhoneOrEmailInput';
+import FormSelect from './FormSelect';
+import FormSwitch from './FormSwitch';
 
 import {
   FlexRow,
@@ -24,6 +26,20 @@ storiesOf('FormInputs', module)
     ()=>(
       <div id="xxx">
         <FormPhoneOrEmailInput />
+      </div>
+    )
+  )
+  .add('FormSelect',
+    ()=>(
+      <div id="xxx">
+        <FormSelect />
+      </div>
+    )
+  )
+  .add('FormSwitch',
+    ()=>(
+      <div id="xxx">
+        <FormSwitch />
       </div>
     )
   );

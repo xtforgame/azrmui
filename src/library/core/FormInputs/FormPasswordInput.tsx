@@ -1,19 +1,17 @@
-/* eslint-disable react/prop-types, react/forbid-prop-types */
+/* eslint-disable react/prop-types, react/forbid-prop-types, react/jsx-filename-extension */
 import React from 'react';
-import { compose } from 'recompose';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
-import FormTextField from './FormTextField';
+import FormTextField, { FormTextFieldProps } from './FormTextField';
 
-const styles = theme => ({
-});
+export type FormPasswordFieldProps = FormTextFieldProps & {
+  onShowPassswordClick?: (e: any) => void;
+};
 
-const FormPasswordInput = (props) => {
+export default (props : FormPasswordFieldProps) => {
   const {
     id,
     type = 'password',
@@ -23,7 +21,7 @@ const FormPasswordInput = (props) => {
   const endAdornment = (
     <InputAdornment position="end">
       <IconButton
-        tabIndex="-1"
+        // tabIndex="-1"
         onClick={onShowPassswordClick}
         onMouseDown={(event) => {
           event.preventDefault();
@@ -44,11 +42,3 @@ const FormPasswordInput = (props) => {
     />
   );
 };
-
-FormPasswordInput.propTypes = {
-  id: PropTypes.string.isRequired,
-};
-
-export default compose(
-  withStyles(styles),
-)(FormPasswordInput);
