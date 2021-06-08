@@ -2,12 +2,19 @@ import { useState } from 'react';
 
 export const Cancel = Symbol('Cancel');
 
+export type UseDialogStatePrpos = {
+  open?: (...any) => boolean | void,
+  close?: (...any) => boolean | void,
+  exited?: (...any) => boolean | void,
+  dialogProps?: any;
+};
+
 export default ({
-  open: openFunc = (...args) => {},
-  close: closeFunc = (...args) => {},
-  exited: exitedFunc = (...args) => {},
+  open: openFunc = () => {},
+  close: closeFunc = () => {},
+  exited: exitedFunc = () => {},
   dialogProps: dp = {},
-}) => {
+}: UseDialogStatePrpos) => {
   const [open, setOpen] = useState(false);
   const [exited, setExited] = useState(true);
 
