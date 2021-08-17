@@ -36,10 +36,10 @@ export default (props) => {
   return (
     <TimePicker
       {...baseProps}
-      {...rest}
       value={value}
       labelFunc={getTimeDisplayFuncFromProps(props)}
       onChange={v => (v === null ? onChange(v) : onChange(moment(v).format(timeFormat)/* .toISOString(true) */))}
+      {...rest}
     />
   );
 };

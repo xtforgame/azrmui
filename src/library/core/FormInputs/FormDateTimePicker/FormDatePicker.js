@@ -36,10 +36,10 @@ export default (props) => {
   return (
     <DatePicker
       {...baseProps}
-      {...rest}
       value={value}
       labelFunc={getDateDisplayFuncFromProps(props)}
       onChange={v => (v === null ? onChange(v) : onChange(moment(v).format(timeFormat)/* .toISOString(true) */))}
+      {...rest}
     />
   );
 };

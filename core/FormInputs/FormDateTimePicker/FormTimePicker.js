@@ -44,11 +44,11 @@ var _default = props => {
     invalidLabel: props.label ? '' : t('notSelected'),
     clearable: true
   };
-  return _react.default.createElement(_pickers.TimePicker, _extends({}, baseProps, rest, {
+  return _react.default.createElement(_pickers.TimePicker, _extends({}, baseProps, {
     value: value,
     labelFunc: (0, _utils.getTimeDisplayFuncFromProps)(props),
     onChange: v => v === null ? onChange(v) : onChange((0, _moment.default)(v).format(_utils.timeFormat))
-  }));
+  }, rest));
 };
 
 exports.default = _default;

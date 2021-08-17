@@ -11,8 +11,8 @@ export const dateTimeDisplayFormat = 'lll';
 
 export const timeFormat = 'YYYY-MM-DD[T]HH:mm:ss.SSSZZ';
 
-export const getDateDisplayFuncFromProps = props => (date, invalidLabel) => ((date === null) ? invalidLabel : moment(date).format(dateDisplayFormat));
+export const getDateDisplayFuncFromProps = props => (date, invalidLabel) => ((date === null) ? invalidLabel : moment(date).format(props.format || dateDisplayFormat));
 
-export const getTimeDisplayFuncFromProps = props => (date, invalidLabel) => ((date === null) ? invalidLabel : moment(date).format(timeDisplayFormat));
+export const getTimeDisplayFuncFromProps = props => (date, invalidLabel) => ((date === null) ? invalidLabel : moment(date).format(props.format || timeDisplayFormat));
 
-export const getDateTimeDisplayFuncFromProps = props => (date, invalidLabel) => ((date === null) ? invalidLabel : moment(date).format(dateTimeDisplayFormat));
+export const getDateTimeDisplayFuncFromProps = props => (date, invalidLabel) => ((date === null) ? invalidLabel : moment(date).format(props.format || dateTimeDisplayFormat));
