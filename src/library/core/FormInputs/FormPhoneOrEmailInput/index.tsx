@@ -1,19 +1,17 @@
 /* eslint-disable react/prop-types, react/forbid-prop-types, no-empty */
 import React, { useState } from 'react';
-import { compose } from 'recompose';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Email from '@material-ui/icons/Email';
 import Phone from '@material-ui/icons/Phone';
-
 import /* libphonenumber, */ {
   PhoneNumberFormat as PNF,
   PhoneNumberUtil,
 } from 'google-libphonenumber';
+import { Overwrite } from '~/common/utils';
 import { isValidEmail } from '~/common/utils/validators';
-import FormTextField from '../FormTextField';
+import FormTextField, { FormTextFieldProps } from '../FormTextField';
 import PhoneRegionSelect from './PhoneRegionSelect';
 import { getCountryCodeFromBrowser } from './langToCountry';
 
@@ -30,16 +28,23 @@ export const isValidPhoneNumber = (value) => {
 export { isValidEmail };
 
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   adornment: {
     marginRight: 0,
   },
-});
+}));
 
-const rawInputToState = (rawInput, enablePhone = true, enableEmail = true) => {
-  let regionCode = null;
+export type FormPhoneOrEmailInputState = {
+  rawInput: any;
+  value: string | undefined;
+  regionCode: string | undefined;
+  type: string | undefined;
+};
+
+const rawInputToState : (x: any, y?: boolean, z?: boolean) => FormPhoneOrEmailInputState = (rawInput, enablePhone = true, enableEmail = true) => {
+  let regionCode;
   let value = rawInput;
-  let number = null;
+  let number;
   let type;
 
   if (enablePhone) {
@@ -72,15 +77,21 @@ const rawInputToState = (rawInput, enablePhone = true, enableEmail = true) => {
   };
 };
 
-const FormPhoneOrEmailInput = (props) => {
+export type FormPhoneOrEmailInputProps = FormTextFieldProps & {
+  enablePhone?: boolean;
+  enableEmail?: boolean;
+  onChange?: (state: FormPhoneOrEmailInputState) => any,
+};
+
+export default (props: FormPhoneOrEmailInputProps) => {
   const {
-    id,
-    classes,
     enablePhone: eP,
     enableEmail: eE,
     onChange = () => {},
     ...rest
   } = props;
+
+  const classes = useStyles();
 
   const [enablePhone] = useState(eP == null ? true : eP);
   const [enableEmail] = useState(eE == null ? true : eE);
@@ -96,6 +107,8 @@ const FormPhoneOrEmailInput = (props) => {
 
   const { regionCode, type } = state;
 
+  const component : any = undefined;
+
   const startAdornment = (
     <InputAdornment
       position="start"
@@ -104,12 +117,13 @@ const FormPhoneOrEmailInput = (props) => {
       {regionCode != null ? <PhoneRegionSelect regionCode={regionCode} />
         : (
           <IconButton
+            component={component}
             tabIndex="-1"
             onMouseDown={(event) => {
               event.preventDefault();
             }}
           >
-            {enableEmail ? <Email color={type ? 'primary' : ''} /> : <Phone />}
+            {enableEmail ? <Email color={type ? 'primary' : undefined} /> : <Phone />}
           </IconButton>
         )
       }
@@ -117,7 +131,6 @@ const FormPhoneOrEmailInput = (props) => {
   );
   return (
     <FormTextField
-      id={id}
       InputProps={{
         startAdornment,
       }}
@@ -126,11 +139,3 @@ const FormPhoneOrEmailInput = (props) => {
     />
   );
 };
-
-FormPhoneOrEmailInput.propTypes = {
-  id: PropTypes.string.isRequired,
-};
-
-export default compose(
-  withStyles(styles),
-)(FormPhoneOrEmailInput);

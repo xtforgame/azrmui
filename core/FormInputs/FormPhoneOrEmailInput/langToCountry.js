@@ -735,7 +735,7 @@ const getCountryCodeFromBrowser = () => {
     return 'US';
   }
 
-  let country = null;
+  let country = '';
   const myLangSplit = navigator.language.split('-');
 
   if (myLangSplit.length > 1) {

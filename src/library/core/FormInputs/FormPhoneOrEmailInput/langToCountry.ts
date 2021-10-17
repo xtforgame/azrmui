@@ -12,7 +12,7 @@ export const getCountryCodeFromBrowser = () => {
   if (!navigator) {
     return 'US';
   }
-  let country = null;
+  let country = '';
   const myLangSplit = navigator.language.split('-');
   if (myLangSplit.length > 1) {
     const candidate = myLangSplit[myLangSplit.length - 1];

@@ -13,10 +13,6 @@ exports.default = exports.isValidPhoneNumber = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _recompose = require("recompose");
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _styles = require("@material-ui/core/styles");
 
 var _InputAdornment = _interopRequireDefault(require("@material-ui/core/InputAdornment"));
@@ -68,17 +64,16 @@ const isValidPhoneNumber = value => {
 };
 
 exports.isValidPhoneNumber = isValidPhoneNumber;
-
-const styles = theme => ({
+const useStyles = (0, _styles.makeStyles)(theme => ({
   adornment: {
     marginRight: 0
   }
-});
+}));
 
 const rawInputToState = (rawInput, enablePhone = true, enableEmail = true) => {
-  let regionCode = null;
+  let regionCode;
   let value = rawInput;
-  let number = null;
+  let number;
   let type;
 
   if (enablePhone) {
@@ -107,16 +102,15 @@ const rawInputToState = (rawInput, enablePhone = true, enableEmail = true) => {
   };
 };
 
-const FormPhoneOrEmailInput = props => {
+var _default = props => {
   const {
-    id,
-    classes,
     enablePhone: eP,
     enableEmail: eE,
     onChange = () => {}
   } = props,
-        rest = _objectWithoutProperties(props, ["id", "classes", "enablePhone", "enableEmail", "onChange"]);
+        rest = _objectWithoutProperties(props, ["enablePhone", "enableEmail", "onChange"]);
 
+  const classes = useStyles();
   const [enablePhone] = (0, _react.useState)(eP == null ? true : eP);
   const [enableEmail] = (0, _react.useState)(eE == null ? true : eE);
   const [state, setState] = (0, _react.useState)(_objectSpread({}, rawInputToState(props.value, enablePhone, enableEmail)));
@@ -131,6 +125,7 @@ const FormPhoneOrEmailInput = props => {
     regionCode,
     type
   } = state;
+  const component = undefined;
 
   const startAdornment = _react.default.createElement(_InputAdornment.default, {
     position: "start",
@@ -138,16 +133,16 @@ const FormPhoneOrEmailInput = props => {
   }, regionCode != null ? _react.default.createElement(_PhoneRegionSelect.default, {
     regionCode: regionCode
   }) : _react.default.createElement(_IconButton.default, {
+    component: component,
     tabIndex: "-1",
     onMouseDown: event => {
       event.preventDefault();
     }
   }, enableEmail ? _react.default.createElement(_Email.default, {
-    color: type ? 'primary' : ''
+    color: type ? 'primary' : undefined
   }) : _react.default.createElement(_Phone.default, null)));
 
   return _react.default.createElement(_FormTextField.default, _extends({
-    id: id,
     InputProps: {
       startAdornment
     }
@@ -155,11 +150,5 @@ const FormPhoneOrEmailInput = props => {
     onChange: handleChange
   }));
 };
-
-FormPhoneOrEmailInput.propTypes = {
-  id: _propTypes.default.string.isRequired
-};
-
-var _default = (0, _recompose.compose)((0, _styles.withStyles)(styles))(FormPhoneOrEmailInput);
 
 exports.default = _default;
