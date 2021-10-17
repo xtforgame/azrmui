@@ -21,7 +21,7 @@ export const useDispatchToProps = (map) => {
 };
 
 export const useConnect = (mapStateToProps, mapDispatchToProps) => {
-  const state = useMappedState(mapStateToProps);
+  const state = useMappedState<any>(mapStateToProps);
   let dispatch = useDispatchToProps(mapDispatchToProps);
   if (typeof dispatch === 'function') {
     dispatch = { dispatch };

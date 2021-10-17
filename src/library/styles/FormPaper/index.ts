@@ -1,7 +1,8 @@
+import { Styles } from '@material-ui/styles/withStyles';
 import genStyleCreator from '../genStyleCreator';
 import login from './login';
 
-const subsets = {
+const subsets : { [s: string]: Styles<any, any> } = {
   login,
 };
 

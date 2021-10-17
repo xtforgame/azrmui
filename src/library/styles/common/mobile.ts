@@ -1,4 +1,6 @@
-export default theme => ({
+import { Styles } from '@material-ui/styles/withStyles';
+
+const styles : Styles<any, any> = theme => ({
   mobileContentPlaceholder: {
     height: 0, // 40,
   },
@@ -17,3 +19,5 @@ export default theme => ({
     overflowY: 'scroll',
   },
 });
+
+export default styles;

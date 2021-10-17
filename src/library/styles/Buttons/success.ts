@@ -1,4 +1,6 @@
-export default theme => ({
+import { Styles } from '@material-ui/styles/withStyles';
+
+const styles : Styles<any, any> = theme => ({
   containedPrimary: {
     contrastText: theme.palette.getContrastText(theme.palette.primary.main),
     color: theme.status.success.contrastText,
@@ -12,3 +14,5 @@ export default theme => ({
     },
   },
 });
+
+export default styles;

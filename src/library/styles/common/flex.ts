@@ -1,4 +1,6 @@
-export default theme => ({
+import { Styles } from '@material-ui/styles/withStyles';
+
+const styles : Styles<any, any> = theme => ({
   flexContainer: {
     display: 'flex',
   },
@@ -72,3 +74,5 @@ export default theme => ({
     flex: 1,
   },
 });
+
+export default styles;

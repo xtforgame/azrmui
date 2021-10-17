@@ -1,4 +1,6 @@
-export default theme => ({
+import { Styles } from '@material-ui/styles/withStyles';
+
+const styles : Styles<any, any> = theme => ({
   '@global': {
     html: {
       background: theme.palette.background.default,
@@ -10,3 +12,5 @@ export default theme => ({
     },
   },
 });
+
+export default styles;

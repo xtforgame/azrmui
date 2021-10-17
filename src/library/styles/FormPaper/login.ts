@@ -1,4 +1,6 @@
-export default theme => ({
+import { Styles } from '@material-ui/styles/withStyles';
+
+const styles : Styles<any, any> = theme => ({
   textContainer: {
     cursor: 'text',
     wordWrap: 'break-word',
@@ -35,3 +37,5 @@ export default theme => ({
     },
   },
 });
+
+export default styles;

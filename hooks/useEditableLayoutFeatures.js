@@ -24,6 +24,7 @@ var _default = props => {
     resetIl({
       defaultValues
     });
+    return undefined;
   }, [isEditing]);
   return layoutFeaturesResult;
 };

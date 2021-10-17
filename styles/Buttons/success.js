@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _default = theme => ({
+const styles = theme => ({
   containedPrimary: {
     contrastText: theme.palette.getContrastText(theme.palette.primary.main),
     color: theme.status.success.contrastText,
@@ -19,4 +19,5 @@ var _default = theme => ({
   }
 });
 
+var _default = styles;
 exports.default = _default;

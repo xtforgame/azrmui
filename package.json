@@ -1,6 +1,6 @@
 {
   "name": "azrmui",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Az react material ui",
   "main": "index.js",
   "repository": {
@@ -113,6 +113,7 @@
     "react-swipeable-views": "0.13.3",
     "react-swipeable-views-utils": "0.13.3",
     "recompose": "^0.26.0",
+    "redux-react-hook": "^4.0.3",
     "rimraf": "^2.5.4",
     "sinon": "^4.3.0",
     "style-loader": "^0.23.0",

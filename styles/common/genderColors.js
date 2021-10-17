@@ -15,7 +15,7 @@ var _amber = _interopRequireDefault(require("@material-ui/core/colors/amber"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _default = theme => ({
+const styles = theme => ({
   unknownColor: {
     backgroundColor: _grey.default[400]
   },
@@ -30,4 +30,5 @@ var _default = theme => ({
   }
 });
 
+var _default = styles;
 exports.default = _default;

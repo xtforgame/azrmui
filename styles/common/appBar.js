@@ -13,7 +13,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var _default = theme => ({
+const styles = theme => ({
   menuButton: {
     marginLeft: -12,
     marginRight: 20
@@ -35,4 +35,5 @@ var _default = theme => ({
   }
 });
 
+var _default = styles;
 exports.default = _default;

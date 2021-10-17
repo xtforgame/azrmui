@@ -1,6 +1,7 @@
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import { Styles } from '@material-ui/styles/withStyles';
 
-export default theme => ({
+const styles : Styles<any, any> = theme => ({
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
@@ -29,3 +30,5 @@ export default theme => ({
     },
   },
 });
+
+export default styles;

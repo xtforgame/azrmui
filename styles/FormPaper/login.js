@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _default = theme => ({
+const styles = theme => ({
   textContainer: {
     cursor: 'text',
     wordWrap: 'break-word'
@@ -43,4 +43,5 @@ var _default = theme => ({
   }
 });
 
+var _default = styles;
 exports.default = _default;
