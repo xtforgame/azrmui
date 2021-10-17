@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types, react/forbid-prop-types, no-empty */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
@@ -104,6 +104,12 @@ export default (props: FormPhoneOrEmailInputProps) => {
     onChange(s);
     setState(s);
   };
+
+  useEffect(() => {
+    const s = rawInputToState(props.value || '', enablePhone, enableEmail);
+    onChange(s);
+    setState(s);
+  }, []);
 
   const { regionCode, type } = state;
 
