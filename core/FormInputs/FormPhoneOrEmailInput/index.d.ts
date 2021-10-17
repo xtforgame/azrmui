@@ -12,6 +12,7 @@ export declare type FormPhoneOrEmailInputState = {
 export declare type FormPhoneOrEmailInputProps = FormTextFieldProps & {
     enablePhone?: boolean;
     enableEmail?: boolean;
+    normalizeOnMounted?: boolean;
     onChange?: (state: FormPhoneOrEmailInputState) => any;
 };
 declare const _default: (props: FormPhoneOrEmailInputProps) => JSX.Element;

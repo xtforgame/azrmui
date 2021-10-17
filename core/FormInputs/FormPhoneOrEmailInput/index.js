@@ -121,6 +121,13 @@ var _default = props => {
     setState(s);
   };
 
+  (0, _react.useEffect)(() => {
+    if (props.normalizeOnMounted) {
+      const s = rawInputToState(props.value || '', enablePhone, enableEmail);
+      onChange(s);
+      setState(s);
+    }
+  }, []);
   const {
     regionCode,
     type
