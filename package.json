@@ -121,7 +121,7 @@
     "tslint-config-airbnb": "^5.11.1",
     "tslint-react": "^4.0.0",
     "typescript": "^3.4.4",
-    "validator": "^10.2.0",
+    "validator": "^13.7.0",
     "webpack": "^4.19.0",
     "webpack-bundle-analyzer": "^3.0.2",
     "webpack-cli": "^3.1.0"
