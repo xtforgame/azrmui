@@ -96,7 +96,7 @@
     "html-webpack-plugin": "^3.2.0",
     "i18next": "15.0.4",
     "ignore-styles": "^5.0.1",
-    "jsonpointer": "^4.1.0",
+    "jsonpointer": "^5.0.0",
     "jss": "10.0.0-alpha.16",
     "jss-rtl": "0.2.3",
     "mocha": "^5.2.0",
